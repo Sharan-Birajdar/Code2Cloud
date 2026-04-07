@@ -1,0 +1,28 @@
+version: 0.0
+os: linux
+files:
+  - source: scripts/
+    destination: /home/ubuntu/app/scripts/
+  - source: imageDetail.json
+    destination: /home/ubuntu/app/
+
+hooks:
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: root
+
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    - location: scripts/start_app.sh
+      timeout: 300
+      runas: root
+
+  ValidateService:
+    - location: scripts/validate.sh
+      timeout: 300
+      runas: root
