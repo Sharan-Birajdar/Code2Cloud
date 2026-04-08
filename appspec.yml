@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: scripts/
-    destination: /home/ubuntu/app/scripts/
+    destination: /home/ubuntu/my-webapp/scripts/
   - source: imageDetail.json
-    destination: /home/ubuntu/app/
+    destination: /home/ubuntu/my-webapp/
 
 hooks:
   BeforeInstall:
