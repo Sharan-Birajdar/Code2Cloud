@@ -11,4 +11,4 @@ docker pull 654485376127.dkr.ecr.ap-south-1.amazonaws.com/my-webapp:latest
 
 echo "Starting new container..."
 
-docker run -d -p 80:3000 --name myapp 654485376127.dkr.ecr.ap-south-1.amazonaws.com/my-webapp:latest
+docker run -d -p 80:80 --name myapp 654485376127.dkr.ecr.ap-south-1.amazonaws.com/my-webapp:latest
