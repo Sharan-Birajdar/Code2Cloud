@@ -9,24 +9,37 @@ env:
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
+      - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO_URI
+      
+      # Debug (IMPORTANT 🔥)
+      - echo "Current directory:"
+      - pwd
+      - echo "Listing files:"
+      - ls -la
+
+      # Tag logic
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - IMAGE_TAG=${COMMIT_HASH:-latest}
 
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build -t $ECR_REPO_URI:latest .
-      - docker tag $ECR_REPO_URI:latest $ECR_REPO_URI:$IMAGE_TAG
+      - echo "Build started on $(date)"
+      - echo "Building Docker image..."
+
+      # Explicit Dockerfile (fix)
+      - docker build -t myapp -f Dockerfile .
+
+      - docker tag myapp:latest $ECR_REPO_URI:latest
+      - docker tag myapp:latest $ECR_REPO_URI:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo Pushing the Docker image to ECR...
+      - echo "Pushing images to ECR..."
       - docker push $ECR_REPO_URI:latest
       - docker push $ECR_REPO_URI:$IMAGE_TAG
-      - echo Writing image definitions file...
+
+      - echo "Creating imageDetail.json..."
       - printf '{"ImageURI":"%s"}' $ECR_REPO_URI:$IMAGE_TAG > imageDetail.json
 
 artifacts:
