@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     AWS_REGION: "ap-south-1"
-    ECR_REPO_URI: "123456789.dkr.ecr.ap-south-1.amazonaws.com/my-webapp"
+    ECR_REPO_URI: "654485376127.dkr.ecr.ap-south-1.amazonaws.com/my-webapp"
     IMAGE_TAG: "latest"
 
 phases:
